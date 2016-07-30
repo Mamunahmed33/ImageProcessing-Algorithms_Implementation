@@ -14,8 +14,9 @@ public class ConvertImageToGrayScale {
                 int green = (int)(c.getGreen() * 0.587);
                 int blue = (int)(c.getBlue() *0.114);
                 
-                Color newColor = new Color(red+green+blue,
-                		red+green+blue, red+green+blue);
+                int sum = red+green+blue;
+                		
+                Color newColor = new Color(sum, sum, sum);
                
                 img.setRGB(col, row, newColor.getRGB());
 			}

@@ -9,26 +9,17 @@ public class ImageReading {
 		
 		BufferedImage img = null;
 		try {
-		    img = ImageIO.read(new File("src/Images/img_6.png"));
+		    img = ImageIO.read(new File("src/Images/img_3.jpg"));
 		    
-		/*    image = new BufferedImage(img.getWidth(), img.getWidth(),
-		    	    BufferedImage.TYPE_BYTE_GRAY);*/
-		    
-		    //img = new ConvertImageToGrayScale().convetToGrayScale(img);
-		    img = new ConvertImageToBinary().convetToBinary(img);
+		    img = new ConvertImageToGrayScale().convetToGrayScale(img);
+		   // img = new ConvertImageToBinary().convetToBinary(img);
+		    new WriteImage().Write(img, "src/Images/", "grayScaleImage_1.jpg");
+		    img = new SobelEdgeDetection().EdgeDetection(img);
 		    
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		File f = null;
-		f = new File("src/Images/Output.jpg");
-		
-		try {
-			ImageIO.write(img, "jpg", f);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		
 		//new ConvertImageToMatrix().imageToMatrix(img);
 	}

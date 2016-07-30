@@ -14,7 +14,7 @@ public class ConvertImageToBinary {
                 int green = (int)(c.getGreen());
                 int blue = (int)(c.getBlue());
                 
-                if(red >150 || green > 150 || blue > 150)
+                if(red >200 || green > 200 || blue > 200)
                 {
                     Color newColor = new Color(255, 255, 255);
                     img.setRGB(col, row, newColor.getRGB());
