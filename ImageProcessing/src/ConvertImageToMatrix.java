@@ -1,25 +1,25 @@
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 public class ConvertImageToMatrix {
-	public double[][] imageToMatrix(BufferedImage img){
+	public int[][] imageToMatrix(BufferedImage img){
 		
 		int imgHeight = img.getHeight();
 		int imgWidth = img.getWidth();
 		
-		//System.out.println(imgHeight + "    "+ imgWidth);
+		int[][] matrix = new int[imgWidth][imgHeight];
 		
-		double[][] matrix = new double[img.getHeight()][img.getWidth()];
-		
-		for(int row = 0; row < imgHeight; row++ ){
-			for(int col = 0; col < imgWidth ; col++){
-				matrix[row][col] = img.getRGB(row, col);
+		for(int i = 0; i < imgHeight; i++ ){
+			for(int j = 0; j < imgWidth ; j++){
 				
-				/*Color c = new Color( img.getRGB(row, col));
-				
-				System.out.print(c.getRed() + " " + c.getGreen() + " " + c.getBlue() +"\n" );
-				*/
+				Color c = new Color(img.getRGB(j, i));
+                int red = (int)(c.getRed() * 0.299);
+                int green = (int)(c.getGreen() * 0.587);
+                int blue = (int)(c.getBlue() *0.114);
+                
+                int sum = red+green+blue;
+				matrix[j][i] = sum;
 			}
-			//System.out.println("\n");
 		}
 		
 		return matrix;

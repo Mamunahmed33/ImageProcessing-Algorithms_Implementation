@@ -1,7 +1,9 @@
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 public class SobelEdgeDetection {
 	BufferedImage img, finalImg;
+	int[][] imageMatrix;
 	
 	public SobelEdgeDetection(){
 		
@@ -9,6 +11,7 @@ public class SobelEdgeDetection {
 	
 	public void EdgeDetection(BufferedImage img){
 		this.img = img;
+		imageMatrix = new ConvertImageToMatrix().imageToMatrix(img);
 		int[][] xMatrix = xConvolution();
 		int[][] yMatrix = yConvolution();
 		
@@ -20,7 +23,7 @@ public class SobelEdgeDetection {
 		int height = img.getHeight();
 		int width = img.getWidth();
 		
-		int[][] xMatrix = new int[height-1][width-1]; 
+		int[][] xMatrix = new int[height][width]; 
 		
 		image1 = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
 		
@@ -34,9 +37,9 @@ public class SobelEdgeDetection {
 		{
 			for(int j = 1; j < width - 1; j++)
 			{
-				x = xMask[0][0] * (img.getRGB(j-1,i-1) & 0xFF)+ xMask[0][1] * (img.getRGB(j, i-1)& 0xFF)+ xMask[0][2] * (img.getRGB(j+1, i-1)& 0xFF)
-					+ xMask[1][0] * (img.getRGB(j-1, i) & 0xFF)+ xMask[1][1] * (img.getRGB(j, i) & 0xFF)+ xMask[1][2] * (img.getRGB(j+1, i)& 0xFF)
-					+ xMask[2][0] * (img.getRGB(j-1, i+1)& 0xFF) + xMask[2][1] * (img.getRGB(j, i+1)& 0xFF)+ xMask[2][2] * (img.getRGB(j+1, i+1)& 0xFF);
+				x = xMask[0][0] * imageMatrix[j-1][i-1] + xMask[0][1] * imageMatrix[j][i-1]+ xMask[0][2] * imageMatrix[j+1][i-1]
+					+ xMask[1][0] * imageMatrix[j-1][i]+ xMask[1][1] * imageMatrix[j][i]+ xMask[1][2] * imageMatrix[j+1][i]
+					+ xMask[2][0] * imageMatrix[j-1][i+1]+ xMask[2][1] * imageMatrix[j][i+1]+ xMask[2][2] * imageMatrix[j+1][i+1];
 			
 				if(x > 255)
 				{
@@ -48,7 +51,9 @@ public class SobelEdgeDetection {
 				}
 				
 				xMatrix[i][j] = x;
-				image1.setRGB(j, i, x);
+				Color c = new Color(x, x ,x);
+				
+				image1.setRGB(j, i, c.getRGB());
 			}
 		}
 		
@@ -61,7 +66,7 @@ public class SobelEdgeDetection {
 		BufferedImage image2 = null;
 		int height = img.getHeight();
 		int width = img.getWidth();
-		int[][] yMatrix = new int[height-1][width-1]; 
+		int[][] yMatrix = new int[height][width]; 
 		
 		image2 = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
 		
@@ -74,9 +79,9 @@ public class SobelEdgeDetection {
 		{
 			for(int j = 1; j < width - 1; j++)
 			{
-				y = yMask[0][0] * (img.getRGB(j-1, i-1)& 0xFF) + yMask[0][1] * (img.getRGB(j, i-1)  & 0xFF)+ yMask[0][2] * (img.getRGB(j+1, i-1) & 0xFF)
-					+ yMask[1][0] * (img.getRGB(j-1, i) & 0xFF) + yMask[1][1] * (img.getRGB(j, i) & 0xFF)+ yMask[1][2] * (img.getRGB(j+1, i) & 0xFF)
-					+ yMask[2][0] * (img.getRGB(j-1, i+1) & 0xFF) + yMask[2][1] * (img.getRGB(j, i+1) & 0xFF)+ yMask[2][2] * (img.getRGB(j+1, i+1) & 0xFF);
+				y = yMask[0][0] * imageMatrix[j-1][i-1] + yMask[0][1] * imageMatrix[j][i-1]+ yMask[0][2] * imageMatrix[j+1][i-1]
+					+ yMask[1][0] * imageMatrix[j-1][i] + yMask[1][1] * imageMatrix[j][i]+ yMask[1][2] * imageMatrix[j+1][i]
+					+ yMask[2][0] * imageMatrix[j-1][i+1] + yMask[2][1] * imageMatrix[j][i+1]+ yMask[2][2] * imageMatrix[j+1][i+1];
 				
 				if(y > 255)
 				{
@@ -88,7 +93,9 @@ public class SobelEdgeDetection {
 				}
 				
 				yMatrix[i][j] = y;
-				image2.setRGB(j, i, y);
+				
+				Color c = new Color(y, y ,y);
+				image2.setRGB(j, i, c.getRGB());
 			}
 		}
 		
@@ -118,7 +125,9 @@ public class SobelEdgeDetection {
 					M = 0;
 				}
 				
-				finalImg.setRGB(j, i, M);
+				Color c = new Color(M, M, M);
+				
+				finalImg.setRGB(j, i, c.getRGB());
 			}
 		}
 		
