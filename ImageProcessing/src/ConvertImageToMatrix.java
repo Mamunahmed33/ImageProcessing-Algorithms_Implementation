@@ -1,6 +1,14 @@
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
+/*
+	Input: Colored Image / Any type of image
+	return: 2D grayscale Matrix 
+	Process: 1. Covert's the colored(or any) image to a grayscale image
+			 2. Calculates the sum of grayscale R,G,B Values 
+			 3. Sets the sum value to the matrix positions (pixels)
+*/
+
 public class ConvertImageToMatrix {
 	public int[][] imageToMatrix(BufferedImage img){
 		

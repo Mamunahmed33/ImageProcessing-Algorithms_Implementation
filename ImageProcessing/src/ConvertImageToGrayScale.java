@@ -1,6 +1,14 @@
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
+/*
+Input: Image
+Returns: A Grayscale Image
+Process: 1. Gets the colored image's R,G,B values and converts it to grayscale color
+		 2. Calculates the sum of grayscale R,G,B Values 
+		 3. Sets the sum value to the image pixels
+*/
+
 public class ConvertImageToGrayScale {
 	
 	public BufferedImage convetToGrayScale(BufferedImage img){

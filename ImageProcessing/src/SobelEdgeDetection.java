@@ -1,6 +1,15 @@
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
+/*
+Input: Colored Image
+Output: XConvolition Image, YConvolution Image, Final Image
+Process: 1. Takes a colored image 
+		 2. Gets the grayscale matrix of that image by calling ConvertImageToMatrix class
+		 3. Calculates xConvolution and yConvolution
+		 4. Calculates magnitude from xConvolution and yConvolution and output final image
+*/
+
 public class SobelEdgeDetection {
 	BufferedImage img, finalImg;
 	int[][] imageMatrix;
@@ -19,13 +28,12 @@ public class SobelEdgeDetection {
 	}
 	
 	public int[][] xConvolution(){
-		BufferedImage image1 = null;
 		int height = img.getHeight();
 		int width = img.getWidth();
 		
 		int[][] xMatrix = new int[height][width]; 
 		
-		image1 = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
+		BufferedImage image1 = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
 		
 		int x = 0;
 		
@@ -63,12 +71,11 @@ public class SobelEdgeDetection {
 	}
 	
 	public int[][] yConvolution(){
-		BufferedImage image2 = null;
 		int height = img.getHeight();
 		int width = img.getWidth();
 		int[][] yMatrix = new int[height][width]; 
 		
-		image2 = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
+		BufferedImage image2 = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
 		
 		int y = 0;
 		
@@ -108,7 +115,7 @@ public class SobelEdgeDetection {
 		int height = img.getHeight();
 		int width = img.getWidth();
 		int M, Mx, My;
-		BufferedImage finalImg = new BufferedImage( width-1, height-1, BufferedImage.TYPE_BYTE_GRAY);
+		finalImg = new BufferedImage( width-1, height-1, BufferedImage.TYPE_BYTE_GRAY);
 		
 		for(int i = 1; i < height-1; i++)
 		{

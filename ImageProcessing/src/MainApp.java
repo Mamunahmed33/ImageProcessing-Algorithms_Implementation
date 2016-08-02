@@ -9,11 +9,11 @@ public class MainApp {
 	public static void main(String args[]){
 		BufferedImage img = null;
 		try {
-		    img = ImageIO.read(new File("src/Images/img_1.jpg"));
+		    img = ImageIO.read(new File("src/Images/img_3.jpg"));
 		    
-		    BufferedImage grayImg = new ConvertImageToGrayScale().convetToGrayScale(img);
+		 //   BufferedImage grayImg = new ConvertImageToGrayScale().convetToGrayScale(img);
 		    //new ConvertImageToMatrix().imageToMatrix(img);
-		    new WriteImage().Write(img, "src/Images/", "grayScaleImage_1.jpg");
+		  //  new WriteImage().Write(img, "src/Images/", "grayScaleImage_1.jpg");
 		    
 		    /*BufferedImage BinaryImg = new ConvertImageToBinary().convetToBinary(img);
 		    new WriteImage().Write(BinaryImg, "src/Images/", "BinaryImage.jpg");
@@ -22,7 +22,9 @@ public class MainApp {
 		    sobelEdgeDetection.EdgeDetection(img);
 		    BufferedImage sobelImg = sobelEdgeDetection.getSobelImage();
 		    
-		   // new HoughTransform().LineDetection(sobelImg);
+		    HoughTransform ht = new HoughTransform();
+		    ht.setColoredImage(img);
+		    ht.LineDetection(sobelImg);
 		    
 		} catch (IOException e) {
 			e.printStackTrace();
