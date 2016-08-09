@@ -1,3 +1,4 @@
+package SobelEdgeDetection;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
@@ -13,6 +14,7 @@ Process: 1. Takes a colored image
 public class SobelEdgeDetection {
 	BufferedImage img, finalImg;
 	int[][] imageMatrix;
+	int height, width;
 	
 	public SobelEdgeDetection(){
 		
@@ -20,6 +22,9 @@ public class SobelEdgeDetection {
 	
 	public void EdgeDetection(BufferedImage img){
 		this.img = img;
+		this.height = img.getHeight();
+		this.width = img.getWidth();
+		
 		imageMatrix = new ConvertImageToGrayScaleMatrix().imageToMatrix(img);
 		int[][] xMatrix = xConvolution();
 		int[][] yMatrix = yConvolution();
@@ -28,18 +33,13 @@ public class SobelEdgeDetection {
 	}
 	
 	public int[][] xConvolution(){
-		int height = img.getHeight();
-		int width = img.getWidth();
-		
-		int[][] xMatrix = new int[height][width]; 
+		int[][] xMatrix = new int[width][height]; 
 		
 		BufferedImage image1 = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
 		
 		int x = 0;
 		
 		int [][] xMask = {{-1, -2, -1}, {0, 0, 0}, {1, 2, 1}}; 
-		
-		//System.out.println(height + " " + width);
 		
 		for(int i = 1; i < height - 1; i++)
 		{
@@ -58,29 +58,27 @@ public class SobelEdgeDetection {
 					x = 0;
 				}
 				
-				xMatrix[i][j] = x;
+				xMatrix[j][i] = x;
 				Color c = new Color(x, x ,x);
 				
 				image1.setRGB(j, i, c.getRGB());
 			}
 		}
 		
-		new WriteImage().Write(image1, "src/Images/", "xConvolution.jpg");
+		new WriteImage().Write(image1, "src/SobelEdgeDetection/SobelImages/", "xConvolution.jpg");
 		
 		return xMatrix;
 	}
 	
 	public int[][] yConvolution(){
-		int height = img.getHeight();
-		int width = img.getWidth();
-		int[][] yMatrix = new int[height][width]; 
+		
+		int[][] yMatrix = new int[width][height]; 
 		
 		BufferedImage image2 = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
 		
 		int y = 0;
 		
 		int [][] yMask = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}}; 		
-		//System.out.println(height + " " + width);
 		
 		for(int i = 1; i < height - 1; i++)
 		{
@@ -99,30 +97,28 @@ public class SobelEdgeDetection {
 					y = 0;
 				}
 				
-				yMatrix[i][j] = y;
+				yMatrix[j][i] = y;
 				
 				Color c = new Color(y, y ,y);
 				image2.setRGB(j, i, c.getRGB());
 			}
 		}
 		
-		new WriteImage().Write(image2, "src/Images/", "yConvolution.jpg");
+		new WriteImage().Write(image2, "src/SobelEdgeDetection/SobelImages/", "yConvolution.jpg");
 		
 		return yMatrix;
 	}
 	
 	public void finalImage(int[][] xMatrix, int[][] yMatrix){
-		int height = img.getHeight();
-		int width = img.getWidth();
 		int M, Mx, My;
-		finalImg = new BufferedImage( width-1, height-1, BufferedImage.TYPE_BYTE_GRAY);
+		finalImg = new BufferedImage( width, height, BufferedImage.TYPE_BYTE_GRAY);
 		
 		for(int i = 1; i < height-1; i++)
 		{
 			for(int j = 1; j < width-1; j++)
 			{
-				Mx = xMatrix[i][j];
-				My = yMatrix[i][j];
+				Mx = xMatrix[j][i];
+				My = yMatrix[j][i];
 				M = (int) Math.sqrt(Mx*Mx + My*My);
 				
 				if(M > 255){
@@ -138,7 +134,7 @@ public class SobelEdgeDetection {
 			}
 		}
 		
-		new WriteImage().Write(finalImg, "src/Images/", "finalImg.jpg");
+		new WriteImage().Write(finalImg, "src/SobelEdgeDetection/SobelImages/", "FinalImg.jpg");
 	}
 	
 	public BufferedImage getSobelImage(){

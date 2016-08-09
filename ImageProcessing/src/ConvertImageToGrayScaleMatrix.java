@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 			 3. Sets the sum value to the matrix positions (pixels)
 */
 
-public class ConvertImageToMatrix {
+public class ConvertImageToGrayScaleMatrix {
 	public int[][] imageToMatrix(BufferedImage img){
 		
 		int imgHeight = img.getHeight();

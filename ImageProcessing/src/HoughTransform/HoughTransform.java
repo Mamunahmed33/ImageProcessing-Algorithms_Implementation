@@ -1,3 +1,4 @@
+package HoughTransform;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 /*
@@ -27,7 +28,7 @@ public class HoughTransform {
 			}
 		}
 		
-		new WriteImage().Write(test, "src/Images/", "Test.jpg");
+	//	new WriteImage().Write(test, "src/Images/", "Test.jpg");
 		
 		for(int i=0; i< r; i++){
 			for(int j =0; j< 180; j++)
@@ -54,7 +55,6 @@ public class HoughTransform {
 		
 		for(int i=0; i< r; i++){
 			for(int j =0; j< 180; j++){
-				//System.out.println(houghMat[i][j]);
 				if(houghMat[i][j] > max){
 					max = houghMat[i][j];
 					R = i;
@@ -77,7 +77,7 @@ public class HoughTransform {
 			}
 		}
 		
-		new WriteImage().Write(coloredImage, "src/Images/", "Line.jpg");
+		new WriteImage().Write(coloredImage, "src/HoughTransform/HoughTransformImages/", "MostVottedLine.jpg");
 	}
 	
 	public void setColoredImage(BufferedImage image){
