@@ -52,11 +52,15 @@ public class HarisCornerDetection {
 				x = xMask[0][0] * imageMatrix[j-1][i-1] + xMask[0][1] * imageMatrix[j][i-1]+ xMask[0][2] * imageMatrix[j+1][i-1]
 					+ xMask[1][0] * imageMatrix[j-1][i]+ xMask[1][1] * imageMatrix[j][i]+ xMask[1][2] * imageMatrix[j+1][i]
 					+ xMask[2][0] * imageMatrix[j-1][i+1]+ xMask[2][1] * imageMatrix[j][i+1]+ xMask[2][2] * imageMatrix[j+1][i+1];
-				if(x > 255)
+				if(x > 50)
 				{
 					x = 255;
 				}
-				else if(x < 0)
+				else if(x < -50)
+				{
+					x = 255;
+				}
+				else
 				{
 					x = 0;
 				}
@@ -92,11 +96,15 @@ public class HarisCornerDetection {
 					+ yMask[1][0] * imageMatrix[j-1][i] + yMask[1][1] * imageMatrix[j][i]+ yMask[1][2] * imageMatrix[j+1][i]
 					+ yMask[2][0] * imageMatrix[j-1][i+1] + yMask[2][1] * imageMatrix[j][i+1]+ yMask[2][2] * imageMatrix[j+1][i+1];
 				
-				if(y > 255)
+				if(y > 50)
 				{
 					y = 255;
 				}
-				else if(y < 0)
+				else if(y < -50)
+				{
+					y = 255;
+				}
+				else
 				{
 					y = 0;
 				}
@@ -117,6 +125,9 @@ public class HarisCornerDetection {
 		int [][] xyMatrix = new int[width][height];
 		int [][] xxMatrix = new int[width][height];
 		int [][] yyMatrix = new int[width][height];
+		int [][] gxyMatrix = new int[width][height];
+		int [][] gxxMatrix = new int[width][height];
+		int [][] gyyMatrix = new int[width][height];
 		
 		for(int i = 1; i < height-2; i++)
 		{
@@ -145,12 +156,10 @@ public class HarisCornerDetection {
 					int n = j-2;
 					for(int l=0; l < 5; l++){
 						//System.out.print(gMat[k][l] +" "+ xxMatrix[m][n]+" ");
-						temp1 += (gMat[k][l]* xxMatrix[m][n]);
+						temp1 += gMat[k][l]* xxMatrix[m][n];
 						temp2 += gMat[k][l]* yyMatrix[m][n];
 						temp3 += gMat[k][l]* xyMatrix[m][n];
 					}
-
-
 					//System.out.println();
 				}
 				
@@ -164,27 +173,28 @@ public class HarisCornerDetection {
 				else if (temp1 < 0)
 					temp1 = 0;
 				
-				xxMatrix[j][i] = temp1;
+				gxxMatrix[j][i] = temp1;
+
 				if (temp2 > 255)
 					temp2 = 255;
 				else if (temp2 < 0)
 					temp2 = 0;
 				
-				yyMatrix[j][i] = temp2;
-				
+				gyyMatrix[j][i] = temp2;
+
 				if (temp3 > 255)
 					temp3 = 255;
 				else if (temp3 < 0)
 					temp3 = 0;
 				
-				xyMatrix[j][i] = temp3;
+				gxyMatrix[j][i] = temp3;
 			}
 		}
 		
 		int H, trM, R;
 		
 		BufferedImage HarrisImage = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
-		
+
 		Color w =new Color(255,255,255);
 		Color b =new Color(0,0,0);
 		
@@ -192,12 +202,12 @@ public class HarisCornerDetection {
 		{
 			for(int j = 2; j < width-2; j++)
 			{
-				H = (xxMatrix[j][i] * yyMatrix[j][i]) - (xyMatrix[j][i] * xyMatrix[j][i]);
-				trM = xxMatrix[j][i] + yyMatrix[j][i];
+				H = (gxxMatrix[j][i] * gyyMatrix[j][i]) - (gxyMatrix[j][i] * gxyMatrix[j][i]);
+				trM = gxxMatrix[j][i] + gyyMatrix[j][i];
 				R = (int) (H - (.4 * (trM * trM)));
 				
 				//System.out.print(R+" ");
-				if (R < -100000)
+				if (R < -100000 || R > 100000)
 				{
 					//System.out.print(j +" "+ i+" ");
 					HarrisImage.setRGB(j, i, w.getRGB());
