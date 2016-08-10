@@ -168,23 +168,23 @@ public class HarisCornerDetection {
 				temp2 = temp2 / 273;
 				temp3 = temp3 / 273;
 				
-				if (temp1 > 255)
+				if(temp1 > 255)
 					temp1 = 255;
 				else if (temp1 < 0)
 					temp1 = 0;
 				
 				gxxMatrix[j][i] = temp1;
 
-				if (temp2 > 255)
+				if(temp2 > 255)
 					temp2 = 255;
-				else if (temp2 < 0)
+				else if(temp2 < 0)
 					temp2 = 0;
 				
 				gyyMatrix[j][i] = temp2;
 
-				if (temp3 > 255)
+				if(temp3 > 255)
 					temp3 = 255;
-				else if (temp3 < 0)
+				else if(temp3 < 0)
 					temp3 = 0;
 				
 				gxyMatrix[j][i] = temp3;

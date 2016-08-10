@@ -1,0 +1,14 @@
+/ConvertImageToBinary.class
+/ConvertImageToGrayScale.class
+/ConvertImageToGrayScaleMatrix.class
+/GrayScaleAndBinaryImageConversion/
+/HarrisCornerDetection/
+/HoughTransform/
+/HoughTransform.class
+/ImageReading.class
+/Images/
+/LetterSeparation/
+/MainApp.class
+/SobelEdgeDetection/
+/SobelEdgeDetection.class
+/WriteImage.class
