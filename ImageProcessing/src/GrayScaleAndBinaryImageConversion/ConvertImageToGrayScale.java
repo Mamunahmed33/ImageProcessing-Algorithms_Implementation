@@ -15,10 +15,11 @@ public class ConvertImageToGrayScale {
 	public BufferedImage convetToGrayScale(BufferedImage img){
 		int imgHeight = img.getHeight();
 		int imgWidth = img.getWidth();
-		
+
 		for(int col = 0; col < imgHeight; col++ ){
 			for(int row = 0; row < imgWidth ; row++){
 				Color c = new Color(img.getRGB(row, col));
+
                 int red = (int)(c.getRed() * 0.299);
                 int green = (int)(c.getGreen() * 0.587);
                 int blue = (int)(c.getBlue() *0.114);
