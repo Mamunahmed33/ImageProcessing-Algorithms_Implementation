@@ -1,4 +1,4 @@
-package BanglaLetterSeparation;
+package Temporary;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 			 3. Sets the sum value to the matrix positions (pixels)
 */
 
-public class ConvertImageToMatrix {
+public class ConvertImageToBinaryMatrix {
 	public int[][] imageToMatrix(BufferedImage img){
 		
 		int imgHeight = img.getHeight();

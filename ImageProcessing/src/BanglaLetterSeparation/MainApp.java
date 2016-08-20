@@ -18,7 +18,7 @@ public class MainApp {
 		    BufferedImage BinaryImg = bin.convetToBinary(img);
 		    new WriteImage().Write(BinaryImg, fileSource, "BinaryImage.jpg");
 		    
-		    int[][] imgMat = bin.getImageMat();
+		    int[][] imgMat = bin.getBinaryImageMatrix();
 		    
 		    LetterSeparation cp =  new LetterSeparation();
 		//    cp.setMainImage(img);

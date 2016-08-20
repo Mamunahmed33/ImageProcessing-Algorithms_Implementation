@@ -43,7 +43,7 @@ public class ConvertImageToBinary {
 		return img;
 	}
 	
-	public int[][] getImageMat(){
+	public int[][] getBinaryImageMatrix(){
 		return imgMat;
 	}
 	
