@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-public class CountPixelColor {
+public class LetterSeparation {
 	int imgHeight, imgWidth;
 	int [][] imgMat;
 	int x1=300, y1=300, x2=0, y2=0, count=1;
@@ -27,7 +27,7 @@ public class CountPixelColor {
 		
 		vanishMatra(countBlackWhite);
 		
-		 for(int i = 0; i < imgHeight; i++ ){
+		for(int i = 0; i < imgHeight; i++ ){
 			for(int j = 0; j < imgWidth ; j++){
 				if(imgMat[j][i] == 1){
 					

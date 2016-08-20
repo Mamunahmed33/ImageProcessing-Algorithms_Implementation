@@ -5,11 +5,11 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-
 public class MainApp {
 	public static void main(String args[]){
 		BufferedImage img = null;
 		String fileSource = "src/BanglaLetterSeparation/Images/";
+		
 		try {
 		    img = ImageIO.read(new File(fileSource+"i.jpg"));
 		    
@@ -20,8 +20,8 @@ public class MainApp {
 		    
 		    int[][] imgMat = bin.getImageMat();
 		    
-		    CountPixelColor cp =  new CountPixelColor();
-		    cp.setMainImage(img);
+		    LetterSeparation cp =  new LetterSeparation();
+		//    cp.setMainImage(img);
 		    
 		    cp.count(BinaryImg, imgMat);
 		    
