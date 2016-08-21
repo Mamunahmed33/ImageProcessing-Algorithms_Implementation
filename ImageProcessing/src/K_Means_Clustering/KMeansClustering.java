@@ -10,17 +10,9 @@ import javax.imageio.ImageIO;
 public class KMeansClustering {
 	private int imgHeight, imgWeight;
 	
-	public void KMeansClustering(BufferedImage img, int[][] imageMat){
+	public KMeansClustering(BufferedImage img, int[][] imageMat){
 		this.imgHeight = img.getHeight();
 		this.imgWeight = img.getWidth();
-		
-	/*	for(int i=0; i< imgHeight; i++){
-			for(int j=0; j< imgWeight; j++){
-				System.out.print(imageMat[j][i]+" ");  
-			}
-			
-			System.out.println();
-		}*/
 		
 		int [] K = {40, 60, 90, 150};
 		
@@ -33,7 +25,7 @@ public class KMeansClustering {
 		
 		int[][] clusterGroup = new int[imgWeight][imgHeight];
 		
-		for(int l = 0; l<10; l++){ // 5 loop for cluster 
+		for(int l = 0; l<10; l++){ // loop for cluster iteration to get new center
 			for(int i = 0; i < imgHeight; i++){
 				for(int j = 0; j < imgWeight; j++){
 					for(int a = 0; a <k.length; a++){
@@ -49,20 +41,26 @@ public class KMeansClustering {
 			
 			 k = calculateNewCentroid(clusterGroup, k, imageMat);
 			
-			 changeClusterPixelsColor(clusterGroup, k.length);
-			 
+			 changeClusterPixelsColor(clusterGroup, k);
 		}
 	}
 	
-	private void changeClusterPixelsColor(int[][] clusterGroup, int clusterLength) {
+	private void changeClusterPixelsColor(int[][] clusterGroup, int k[] ) {
 		BufferedImage img = null;
+		int numberOfCluster = k.length;
+		
 		try {
 			img = ImageIO.read(new File("src/K_Means_Clustering/Images/img_4.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		Color[] c = new Color[4];
+		Color[] c = new Color[numberOfCluster];
+		
+		/*for(int i = 0; i < numberOfCluster; i++){
+			c[i] = new Color(k[i], k[i], k[i]);
+		}*/
+		
 		c[0] = new Color(255,0,0);
 		c[1] = new Color(0,255,0);
 		c[2] = new Color(0,0,255);
@@ -70,7 +68,7 @@ public class KMeansClustering {
 		
 		for(int i = 0; i < imgHeight; i++){
 			for(int j = 0; j < imgWeight; j++){
-				for(int a = 0; a < clusterLength; a++){
+				for(int a = 0; a < numberOfCluster; a++){
 					if(clusterGroup[j][i] == a){
 						img.setRGB(j, i, c[a].getRGB());
 					}
@@ -88,9 +86,7 @@ public class KMeansClustering {
 		for(int a = 0; a< k.length; a++){
 			countClusterSet[a][0] = 0;
 			countClusterSet[a][1] = 0;
-			//System.out.print(k[a]+" ");
 		}
-		//System.out.println();
 		
 		for(int i = 0; i < imgHeight; i++){
 			for(int j = 0; j < imgWeight; j++){
@@ -104,10 +100,7 @@ public class KMeansClustering {
 		
 		for(int a = 0; a< k.length; a++){
 			k[a] = countClusterSet[a][1] / countClusterSet[a][0];
-			
-			System.out.print(k[a]+" ");
 		}
-		System.out.println("\n");
 		
 		return k;
 	}

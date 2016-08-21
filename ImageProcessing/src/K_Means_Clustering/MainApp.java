@@ -18,8 +18,8 @@ public class MainApp {
 		    
 		    int[][] imgGrayMat = grayScale.getImageGrayScaleMatrix();
 		    
-		    KMeansClustering kMeansClustering = new KMeansClustering();
-		    kMeansClustering.KMeansClustering(img, imgGrayMat);
+		    KMeansClustering kMeansClustering = new KMeansClustering(img, imgGrayMat);
+		   // kMeansClustering.KMeansClustering(img, imgGrayMat);
 		   
 		} catch (IOException e) {
 			e.printStackTrace();
