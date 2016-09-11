@@ -152,9 +152,9 @@ public class HarisCornerDetection {
 			for(int j = 2; j < width-4; j++)
 			{
 				int m = i-2, temp1=0, temp2=0, temp3=0;
-				for(int k=0; k < 5; k++){
-					int n = j-2;
-					for(int l=0; l < 5; l++){
+				int n = j-2;
+				for(int k = 0; k < 5; k++){
+					for(int l = 0; l < 5; l++){
 						//System.out.print(gMat[k][l] +" "+ xxMatrix[m][n]+" ");
 						temp1 += gMat[k][l]* xxMatrix[m][n];
 						temp2 += gMat[k][l]* yyMatrix[m][n];

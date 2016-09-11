@@ -4,17 +4,21 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
 public class KMeansClustering {
 	private int imgHeight, imgWeight;
+	BufferedImage mainColoredImage;
 	
 	public KMeansClustering(BufferedImage img, int[][] imageMat){
 		this.imgHeight = img.getHeight();
 		this.imgWeight = img.getWidth();
 		
-		int [] K = {40, 60, 90, 150};
+		this.mainColoredImage = img;
+		
+		int [] K = {30, 40, 55, 75, 100, 120, 150, 180};
 		
 		clusterPixels(K, imageMat);
 	}
@@ -46,14 +50,7 @@ public class KMeansClustering {
 	}
 	
 	private void changeClusterPixelsColor(int[][] clusterGroup, int k[] ) {
-		BufferedImage img = null;
 		int numberOfCluster = k.length;
-		
-		try {
-			img = ImageIO.read(new File("src/K_Means_Clustering/Images/img_4.jpg"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		
 		Color[] c = new Color[numberOfCluster];
 		
@@ -61,22 +58,44 @@ public class KMeansClustering {
 			c[i] = new Color(k[i], k[i], k[i]);
 		}*/
 		
-		c[0] = new Color(255,0,0);
+		/*c[0] = new Color(255,0,0);
 		c[1] = new Color(0,255,0);
 		c[2] = new Color(0,0,255);
 		c[3] = new Color(255,255,255);
+		*/
+		if(numberOfCluster> 3){
+			 Random rand = new Random();
+			 Color tempColor;
+			 int max = 255, min = 50, randomNum=0;
+			 int[] RGB = new int[3];
+			 
+			 // This loop can start from i=0 or i==4. If i=4 then previous commented color code need to be uncommented
+			 for(int i=0; i< numberOfCluster; i++){
+				 randomNum = rand.nextInt((max - min) + 1) + min;
+				 
+				 for(int a=0; a< 3; a++){					 
+					 RGB[a] = rand.nextInt((max - min) + 1) + min;
+				 }				
+				 tempColor = new Color(RGB[0], RGB[1], RGB[2]);
+				 
+				 c[i] = tempColor;
+				 if((255 - min) > 10){					 
+					 min = min + 5;
+				 }
+			 }
+		}
 		
 		for(int i = 0; i < imgHeight; i++){
 			for(int j = 0; j < imgWeight; j++){
 				for(int a = 0; a < numberOfCluster; a++){
 					if(clusterGroup[j][i] == a){
-						img.setRGB(j, i, c[a].getRGB());
+						mainColoredImage.setRGB(j, i, c[a].getRGB());
 					}
 				}
 			}
 		}
 		
-		new WriteImage().Write(img, "src/K_Means_Clustering/Images/", "Kmean.jpg");
+		new WriteImage().Write(mainColoredImage, "src/K_Means_Clustering/Images/", "Kmean.jpg");
 	}
 
 	public int[] calculateNewCentroid(int [][] clusterGroup, int[] k, int[][] imageMat){

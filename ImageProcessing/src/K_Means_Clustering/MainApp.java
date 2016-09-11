@@ -11,7 +11,7 @@ public class MainApp {
 		String fileSource = "src/K_Means_Clustering/Images/";
 		
 		try {
-		    img = ImageIO.read(new File(fileSource+"img_4.jpg"));
+		    img = ImageIO.read(new File(fileSource+"img13.jpg"));
 		    
 		    ConvertImageToGrayScale grayScale = new ConvertImageToGrayScale();
 		    grayScale.convetToGrayScale(img);
