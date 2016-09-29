@@ -10,7 +10,7 @@ public class MainApp {
 	public static void main(String args[]){
 		BufferedImage img = null;
 		try {
-		    img = ImageIO.read(new File("src/HoughTransform/HoughTransformImages/img_3.jpg"));
+		    img = ImageIO.read(new File("src/HoughTransform/HoughTransformImages/images.jpg"));
 		    
 		    SobelEdgeDetection sobelEdgeDetection = new SobelEdgeDetection();
 		    sobelEdgeDetection.EdgeDetection(img);

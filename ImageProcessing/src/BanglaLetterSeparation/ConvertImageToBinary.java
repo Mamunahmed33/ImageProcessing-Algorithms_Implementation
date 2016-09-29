@@ -16,6 +16,15 @@ public class ConvertImageToBinary {
 		int imgHeight = img.getHeight();
 		int imgWidth = img.getWidth();
 		
+		ConvertImageToGrayScale g = new ConvertImageToGrayScale();
+		g.convetToGrayScale(img);
+		int[][] imgmat = g.getImageGrayScaleMatrix();
+		
+		OtsuThresholdDetection otsu = new OtsuThresholdDetection(img, imgmat);
+		int threshold = otsu.getThreshold();
+		
+		System.out.println(threshold);
+		
 		imgMat = new int[imgWidth][imgHeight];
 		
 		for(int col = 0; col < imgHeight; col++ ){
@@ -25,7 +34,7 @@ public class ConvertImageToBinary {
                 int green = (int)(c.getGreen());
                 int blue = (int)(c.getBlue());
                 
-                if(red >200 || green > 200 || blue > 200)
+                if(red >threshold || green > threshold || blue > threshold)
                 {
                     Color newColor = new Color(0, 0, 0);
                     img.setRGB(row, col, newColor.getRGB());

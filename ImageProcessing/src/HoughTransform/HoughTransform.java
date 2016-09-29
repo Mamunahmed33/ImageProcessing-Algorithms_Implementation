@@ -22,11 +22,12 @@ public class HoughTransform {
 		int[][] houghMat = new int [r][180];
 		
 		BufferedImage test = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
-		for(int i=0; i< height; i++){
+		
+	/*	for(int i=0; i< height; i++){
 			for(int j =0; j< width; j++){
 				test.setRGB(j, i, imgMat[j][i]);
 			}
-		}
+		}*/
 		
 	//	new WriteImage().Write(test, "src/Images/", "Test.jpg");
 		
@@ -44,7 +45,6 @@ public class HoughTransform {
 						rTemp = (int) (i* Math.sin(Math.toRadians(theta)) + j* Math.cos(Math.toRadians(theta)));
 						if(rTemp > 0 && rTemp < r){
 							houghMat[rTemp][theta] +=1 ; 
-							
 						}
 					}
 				}

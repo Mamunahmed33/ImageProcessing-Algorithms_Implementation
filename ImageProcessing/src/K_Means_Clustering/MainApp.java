@@ -14,7 +14,8 @@ public class MainApp {
 		    img = ImageIO.read(new File(fileSource+"img_4.jpg"));
 		    
 		    ConvertImageToGrayScale grayScale = new ConvertImageToGrayScale();
-		    grayScale.convetToGrayScale(img);
+		    BufferedImage a =   grayScale.convetToGrayScale(img);
+		    new WriteImage().Write(a, "src/K_Means_Clustering/Images/", "Gray.jpg");
 		    
 		    int[][] imgGrayMat = grayScale.getImageGrayScaleMatrix();
 		    

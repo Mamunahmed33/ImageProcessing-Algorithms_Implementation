@@ -16,7 +16,7 @@ public class WriteImage {
 		f = new File(path + imageName);
 		
 		try {
-			ImageIO.write(img, "jpg", f);
+			ImageIO.write(img, "png", f);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

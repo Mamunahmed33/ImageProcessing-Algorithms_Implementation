@@ -235,7 +235,7 @@ public class HarisCornerDetection {
 				My = yMatrix[j][i];
 				M = (int) Math.sqrt(Mx*Mx + My*My);
 				
-				if(M > 255){
+				if(M > 0){
 					M = 255;
 				}
 				else if(M < 0){

@@ -14,7 +14,6 @@ public class OtsuThresholdDetection {
 		for(int i=0; i<256; i++){
 			System.out.println(histogram[i]);
 		}
-		
 	}
 
 	private int[] genereateImageHistogram(int[][] imageMatrix) {
