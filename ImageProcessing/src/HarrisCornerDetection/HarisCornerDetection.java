@@ -3,8 +3,6 @@ package HarrisCornerDetection;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-import HoughTransform.WriteImage;
-
 /*
 Input: Colored Image
 Output: XConvolition Image, YConvolution Image, Final Image
@@ -18,9 +16,10 @@ public class HarisCornerDetection {
 	BufferedImage img, finalImg;
 	int[][] imageMatrix;
 	int height =0, width =0;
+	private WriteImage writeImage;
 	
 	public HarisCornerDetection(){
-		
+		writeImage = WriteImage.getInstance();
 	} 
 	
 	public void EdgeDetection(BufferedImage img){
@@ -52,21 +51,9 @@ public class HarisCornerDetection {
 				x = xMask[0][0] * imageMatrix[j-1][i-1] + xMask[0][1] * imageMatrix[j][i-1]+ xMask[0][2] * imageMatrix[j+1][i-1]
 					+ xMask[1][0] * imageMatrix[j-1][i]+ xMask[1][1] * imageMatrix[j][i]+ xMask[1][2] * imageMatrix[j+1][i]
 					+ xMask[2][0] * imageMatrix[j-1][i+1]+ xMask[2][1] * imageMatrix[j][i+1]+ xMask[2][2] * imageMatrix[j+1][i+1];
-				if(x > 50)
-				{
-					x = 255;
-				}
-				else if(x < -50)
-				{
-					x = 255;
-				}
-				else
-				{
-					x = 0;
-				}
-				xMatrix[j][i] = x;
 				
-				//System.out.print(xMatrix[j][i]+" ");
+				x = xyConvolutionValueChecker(x);
+				xMatrix[j][i] = x;
 				
 				Color c = new Color(x, x ,x);
 				
@@ -74,7 +61,7 @@ public class HarisCornerDetection {
 			}
 		}
 		
-		new WriteImage().Write(image1, "src/HarrisCornerDetection/HarrisImages/", "xConvolution.jpg");
+		writeImage.Write(image1, "src/HarrisCornerDetection/HarrisImages/", "xConvolution.jpg");
 		
 		return xMatrix;
 	}
@@ -96,19 +83,7 @@ public class HarisCornerDetection {
 					+ yMask[1][0] * imageMatrix[j-1][i] + yMask[1][1] * imageMatrix[j][i]+ yMask[1][2] * imageMatrix[j+1][i]
 					+ yMask[2][0] * imageMatrix[j-1][i+1] + yMask[2][1] * imageMatrix[j][i+1]+ yMask[2][2] * imageMatrix[j+1][i+1];
 				
-				if(y > 50)
-				{
-					y = 255;
-				}
-				else if(y < -50)
-				{
-					y = 255;
-				}
-				else
-				{
-					y = 0;
-				}
-				
+				y = xyConvolutionValueChecker(y);
 				yMatrix[j][i] = y;
 				
 				Color c = new Color(y, y ,y);
@@ -116,7 +91,7 @@ public class HarisCornerDetection {
 			}
 		}
 		
-		new WriteImage().Write(image2, "src/HarrisCornerDetection/HarrisImages/", "yConvolution.jpg");
+		writeImage.Write(image2, "src/HarrisCornerDetection/HarrisImages/", "yConvolution.jpg");
 		
 		return yMatrix;
 	}
@@ -153,41 +128,22 @@ public class HarisCornerDetection {
 			{
 				int m = i-2, temp1=0, temp2=0, temp3=0;
 				int n = j-2;
+				
 				for(int k = 0; k < 5; k++){
 					for(int l = 0; l < 5; l++){
-						//System.out.print(gMat[k][l] +" "+ xxMatrix[m][n]+" ");
 						temp1 += gMat[k][l]* xxMatrix[m][n];
 						temp2 += gMat[k][l]* yyMatrix[m][n];
 						temp3 += gMat[k][l]* xyMatrix[m][n];
 					}
-					//System.out.println();
 				}
 				
-				//System.out.println();
 				temp1 = temp1 / 273;
 				temp2 = temp2 / 273;
 				temp3 = temp3 / 273;
 				
-				if(temp1 > 255)
-					temp1 = 255;
-				else if (temp1 < 0)
-					temp1 = 0;
-				
-				gxxMatrix[j][i] = temp1;
-
-				if(temp2 > 255)
-					temp2 = 255;
-				else if(temp2 < 0)
-					temp2 = 0;
-				
-				gyyMatrix[j][i] = temp2;
-
-				if(temp3 > 255)
-					temp3 = 255;
-				else if(temp3 < 0)
-					temp3 = 0;
-				
-				gxyMatrix[j][i] = temp3;
+				gxxMatrix[j][i] = pixelValueChecker(temp1);
+				gyyMatrix[j][i] = pixelValueChecker(temp2);
+				gxyMatrix[j][i] = pixelValueChecker(temp3);
 			}
 		}
 		
@@ -206,21 +162,43 @@ public class HarisCornerDetection {
 				trM = gxxMatrix[j][i] + gyyMatrix[j][i];
 				R = (int) (H - (.4 * (trM * trM)));
 				
-				//System.out.print(R+" ");
 				if (R < -100000 || R > 100000)
 				{
-					//System.out.print(j +" "+ i+" ");
 					HarrisImage.setRGB(j, i, w.getRGB());
 				}
 				else{
 					HarrisImage.setRGB(j, i, b.getRGB());
 				}
 			}
-			//System.out.println();
 		}
-		//System.out.print(xxMatrix[5][7] +" "+" ");
 		
-		new WriteImage().Write(HarrisImage, "src/HarrisCornerDetection/HarrisImages/", "HarrisImage.jpg");
+		writeImage.Write(HarrisImage, "src/HarrisCornerDetection/HarrisImages/", "HarrisImage.jpg");
+	}
+	
+	private int pixelValueChecker(int value){
+		if(value > 255)
+			value = 255;
+		else if(value < 0)
+			value = 0;
+		
+		return value;
+	}
+	
+	private int xyConvolutionValueChecker(int value){
+		if(value > 50)
+		{
+			value = 255;
+		}
+		else if(value < -50)
+		{
+			value = 255;
+		}
+		else
+		{
+			value = 0;
+		}
+		
+		return value;
 	}
 	
 	public void finalImage(int[][] xMatrix, int[][] yMatrix){
@@ -248,6 +226,6 @@ public class HarisCornerDetection {
 			}
 		}
 		
-		new WriteImage().Write(finalImg, "src/HarrisCornerDetection/HarrisImages/", "FinalImage.jpg");
+		writeImage.Write(finalImg, "src/HarrisCornerDetection/HarrisImages/", "FinalImage.jpg");
 	}
 }

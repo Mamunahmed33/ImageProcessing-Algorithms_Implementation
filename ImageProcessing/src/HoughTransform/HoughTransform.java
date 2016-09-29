@@ -1,6 +1,8 @@
 package HoughTransform;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+
+import HarrisCornerDetection.WriteImage;
 /*
 	Input: Sobel Image, The original Colored image
 	Output: A JPG image with detected line
@@ -9,7 +11,12 @@ import java.awt.image.BufferedImage;
 			 3. Detects(red color) the maximum line from the image
 */
 public class HoughTransform {
-	BufferedImage coloredImage ;
+	BufferedImage coloredImage;
+	private WriteImage writeImage;
+	
+	public HoughTransform(){
+		writeImage = WriteImage.getInstance();
+	}
 	
 	public void LineDetection(BufferedImage img){
 		int height = img.getHeight();
@@ -22,14 +29,6 @@ public class HoughTransform {
 		int[][] houghMat = new int [r][180];
 		
 		BufferedImage test = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
-		
-	/*	for(int i=0; i< height; i++){
-			for(int j =0; j< width; j++){
-				test.setRGB(j, i, imgMat[j][i]);
-			}
-		}*/
-		
-	//	new WriteImage().Write(test, "src/Images/", "Test.jpg");
 		
 		for(int i=0; i< r; i++){
 			for(int j =0; j< 180; j++)
@@ -77,7 +76,7 @@ public class HoughTransform {
 			}
 		}
 		
-		new WriteImage().Write(coloredImage, "src/HoughTransform/HoughTransformImages/", "MostVottedLine.jpg");
+		writeImage.Write(coloredImage, "src/HoughTransform/HoughTransformImages/", "MostVottedLine.jpg");
 	}
 	
 	public void setColoredImage(BufferedImage image){

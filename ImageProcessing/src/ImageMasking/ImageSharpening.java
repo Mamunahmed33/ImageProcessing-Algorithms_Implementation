@@ -3,8 +3,6 @@ package ImageMasking;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-import SobelEdgeDetection.WriteImage;
-
 public class ImageSharpening {
 private int imgHeight, imgWeight;
 	
@@ -43,14 +41,7 @@ private int imgHeight, imgWeight;
 				
 				x = Math.abs(x);
 				
-				if(x > 255)
-				{
-					x = 0;
-				}
-				else if(x < 0)
-				{
-					x = 255;
-				}
+				x = imageValueChecker(x);
 				
 				lap1Matrix[j][i] = x;
 				Color c = new Color(x, x ,x);
@@ -83,14 +74,7 @@ public void laplasianFilter2(int[][] imageMat) {
 				
 				x = Math.abs(x);
 				
-				if(x > 255)
-				{
-					x = 0;
-				}
-				else if(x < 0)
-				{
-					x = 255;
-				}
+				x = imageValueChecker(x);
 				
 				Color c = new Color(x, x ,x);
 				
@@ -101,42 +85,35 @@ public void laplasianFilter2(int[][] imageMat) {
 		new WriteImage().Write(image3, "src/ImageMasking/Images/", "lap2.jpg");
 	}
 
-public void laplasianFilter3(int[][] imageMat) {
-	
-	BufferedImage image4 = new BufferedImage(imgWeight, imgHeight, BufferedImage.TYPE_BYTE_GRAY);
-	
-	int[][] lap = {{0,-1,0},
-						{-1,5,-1},
-						{0,-1,0}};
-	
-	for(int i = 1; i < imgHeight - 1; i++)
-	{
-		int x = 0;
-		for(int j = 1; j < imgWeight - 1; j++)
+	public void laplasianFilter3(int[][] imageMat) {
+		
+		BufferedImage image4 = new BufferedImage(imgWeight, imgHeight, BufferedImage.TYPE_BYTE_GRAY);
+		
+		int[][] lap = {{0,-1,0},
+							{-1,5,-1},
+							{0,-1,0}};
+		
+		for(int i = 1; i < imgHeight - 1; i++)
 		{
-			x = lap[0][0] * imageMat[j-1][i-1] + lap[0][1] * imageMat[j][i-1]+ lap[0][2] * imageMat[j+1][i-1]
-				+ lap[1][0] * imageMat[j-1][i]+ lap[1][1] * imageMat[j][i]+ lap[1][2] * imageMat[j+1][i]
-				+ lap[2][0] * imageMat[j-1][i+1]+ lap[2][1] * imageMat[j][i+1]+ lap[2][2] * imageMat[j+1][i+1];
-			
-			x = Math.abs(x);
-			
-			if(x > 255)
+			int x = 0;
+			for(int j = 1; j < imgWeight - 1; j++)
 			{
-				x = 0;
+				x = lap[0][0] * imageMat[j-1][i-1] + lap[0][1] * imageMat[j][i-1]+ lap[0][2] * imageMat[j+1][i-1]
+					+ lap[1][0] * imageMat[j-1][i]+ lap[1][1] * imageMat[j][i]+ lap[1][2] * imageMat[j+1][i]
+					+ lap[2][0] * imageMat[j-1][i+1]+ lap[2][1] * imageMat[j][i+1]+ lap[2][2] * imageMat[j+1][i+1];
+				
+				x = Math.abs(x);
+				
+				x = imageValueChecker(x);
+				
+				Color c = new Color(x, x ,x);
+				
+				image4.setRGB(j, i, c.getRGB());
 			}
-			else if(x < 0)
-			{
-				x = 255;
-			}
-			
-			Color c = new Color(x, x ,x);
-			
-			image4.setRGB(j, i, c.getRGB());
 		}
+		
+		new WriteImage().Write(image4, "src/ImageMasking/Images/", "lap2.jpg");
 	}
-	
-	new WriteImage().Write(image4, "src/ImageMasking/Images/", "lap2.jpg");
-}
 
 	private void lapMatrixAddWithOriginalImage(int[][] lapMat, int[][] imgMat){
 		int[][] lap1Matrix = new int[imgWeight][imgHeight];
@@ -149,14 +126,7 @@ public void laplasianFilter3(int[][] imageMat) {
 			{
 				x = lapMat[j][i]+imgMat[j][i];
 				
-				if(x > 255)
-				{
-					x = 255;
-				}
-				else if(x < 0)
-				{
-					x = 255;
-				}
+				x = imageValueChecker(x);
 				
 				Color c = new Color(x, x ,x);
 				
@@ -165,5 +135,14 @@ public void laplasianFilter3(int[][] imageMat) {
 		}
 		
 		new WriteImage().Write(image4, "src/ImageMasking/Images/", "addlap2.jpg");
+	}
+	
+	private int imageValueChecker(int value){
+		if(value > 255)
+			value = 255;
+		else if(value < 0)
+			value = 0;
+		
+		return value;
 	}
 }

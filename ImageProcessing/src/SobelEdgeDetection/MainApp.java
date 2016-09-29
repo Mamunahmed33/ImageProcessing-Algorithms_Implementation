@@ -14,7 +14,6 @@ public class MainApp {
 		    
 		    SobelEdgeDetection sobelEdgeDetection = new SobelEdgeDetection();
 		    sobelEdgeDetection.EdgeDetection(img);
-		 //   BufferedImage sobelImg = sobelEdgeDetection.getSobelImage();
 		    
 		} catch (IOException e) {
 			e.printStackTrace();

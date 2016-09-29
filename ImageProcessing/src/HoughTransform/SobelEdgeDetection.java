@@ -2,6 +2,8 @@ package HoughTransform;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
+import HarrisCornerDetection.WriteImage;
+
 /*
 Input: Colored Image
 Output: XConvolition Image, YConvolution Image, Final Image
@@ -15,9 +17,10 @@ public class SobelEdgeDetection {
 	BufferedImage img, finalImg;
 	int[][] imageMatrix;
 	int height, width;
+	private WriteImage writeImage;
 	
 	public SobelEdgeDetection(){
-		
+		writeImage = WriteImage.getInstance();
 	} 
 	
 	public void EdgeDetection(BufferedImage img){
@@ -134,7 +137,7 @@ public class SobelEdgeDetection {
 			}
 		}
 		
-		new WriteImage().Write(finalImg, "src/HoughTransform/HoughTransformImages/", "SobelImage.jpg");
+		writeImage.Write(finalImg, "src/HoughTransform/HoughTransformImages/", "SobelImage.jpg");
 	}
 	
 	public BufferedImage getSobelImage(){

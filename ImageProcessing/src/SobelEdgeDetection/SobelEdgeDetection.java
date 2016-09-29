@@ -2,6 +2,8 @@ package SobelEdgeDetection;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
+import HarrisCornerDetection.WriteImage;
+
 /*
 Input: Colored Image
 Output: XConvolition Image, YConvolution Image, Final Image
@@ -15,9 +17,10 @@ public class SobelEdgeDetection {
 	BufferedImage img, finalImg;
 	int[][] imageMatrix;
 	int height, width;
+	private WriteImage writeImage;
 	
 	public SobelEdgeDetection(){
-		
+		writeImage = WriteImage.getInstance();
 	} 
 	
 	public void EdgeDetection(BufferedImage img){
@@ -51,14 +54,7 @@ public class SobelEdgeDetection {
 			
 				x = Math.abs(x);
 				
-				if(x > 255)
-				{
-					x = 255;
-				}
-				else if(x < 0)
-				{
-					x = 0;
-				}
+				x = pixelValueChecker(x);
 				
 				xMatrix[j][i] = x;
 				Color c = new Color(x, x ,x);
@@ -67,7 +63,7 @@ public class SobelEdgeDetection {
 			}
 		}
 		
-		new WriteImage().Write(image1, "src/SobelEdgeDetection/SobelImages/", "xConvolution.jpg");
+		writeImage.Write(image1, "src/SobelEdgeDetection/SobelImages/", "xConvolution.jpg");
 		
 		return xMatrix;
 	}
@@ -92,14 +88,7 @@ public class SobelEdgeDetection {
 				
 				y = Math.abs(y);
 				
-				if(y > 255)
-				{
-					y = 255;
-				}
-				else if(y < 0)
-				{
-					y = 0;
-				}
+				y = pixelValueChecker(y);
 				
 				yMatrix[j][i] = y;
 				
@@ -108,9 +97,18 @@ public class SobelEdgeDetection {
 			}
 		}
 		
-		new WriteImage().Write(image2, "src/SobelEdgeDetection/SobelImages/", "yConvolution.jpg");
+		writeImage.Write(image2, "src/SobelEdgeDetection/SobelImages/", "yConvolution.jpg");
 		
 		return yMatrix;
+	}
+	
+	private int pixelValueChecker(int value){
+		if(value > 255)
+			value = 255;
+		else if(value < 0)
+			value = 0;
+		
+		return value;
 	}
 	
 	public void finalImage(int[][] xMatrix, int[][] yMatrix){
@@ -138,7 +136,7 @@ public class SobelEdgeDetection {
 			}
 		}
 		
-		new WriteImage().Write(finalImg, "src/SobelEdgeDetection/SobelImages/", "FinalImg.jpg");
+		writeImage.Write(finalImg, "src/SobelEdgeDetection/SobelImages/", "FinalImg.jpg");
 	}
 	
 	public BufferedImage getSobelImage(){
