@@ -123,12 +123,7 @@ public class SobelEdgeDetection {
 				My = yMatrix[j][i];
 				M = (int) Math.sqrt(Mx*Mx + My*My);
 				
-				if(M > 255){
-					M = 255;
-				}
-				else if(M < 0){
-					M = 0;
-				}
+				M = pixelValueChecker(M);
 				
 				Color c = new Color(M, M, M);
 				
