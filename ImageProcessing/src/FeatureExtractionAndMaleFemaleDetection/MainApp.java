@@ -9,12 +9,14 @@ import javax.imageio.ImageIO;
 public class MainApp {
 	
 	public static void main(String args[]){
+		String filePath = "D:\\LFW GENDER\\fold0\\malen";
+		SobelEdgeDetection sobelEdgeDetection = new SobelEdgeDetection();
 		try {
-			BufferedImage img = ImageIO.read(new File("src/FeatureExtractionAndMaleFemaleDetection/Images/img_3.jpg"));
-		    
-		    SobelEdgeDetection sobelEdgeDetection = new SobelEdgeDetection();
-		    sobelEdgeDetection.EdgeDetection(img);
-		    
+			for (int i = 1; i <10000; i++){
+				BufferedImage img = ImageIO.read(new File("filePath" +i+".jpg"));
+
+				sobelEdgeDetection.EdgeDetection(img);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

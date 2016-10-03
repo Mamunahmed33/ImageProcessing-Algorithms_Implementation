@@ -27,7 +27,7 @@ public class SobelEdgeDetection {
 		this.img = img;
 		this.height = img.getHeight();
 		this.width = img.getWidth();
-		
+
 		imageMatrix = new ConvertImageToGrayScaleMatrix().imageToMatrix(img);
 		int[][] xMatrix = xConvolution();
 		int[][] yMatrix = yConvolution();
@@ -65,7 +65,7 @@ public class SobelEdgeDetection {
 			}
 		}
 		
-		writeImage.Write(image1, "src/FeatureExtractionAndMaleFemaleDetection/Images/", "xConvolution.jpg");
+		//writeImage.Write(image1, "src/FeatureExtractionAndMaleFemaleDetection/Images/", "xConvolution.jpg");
 		
 		return xMatrix;
 	}
@@ -99,7 +99,7 @@ public class SobelEdgeDetection {
 			}
 		}
 		
-		writeImage.Write(image2, "src/FeatureExtractionAndMaleFemaleDetection/Images/", "yConvolution.jpg");
+		//writeImage.Write(image2, "src/FeatureExtractionAndMaleFemaleDetection/Images/", "yConvolution.jpg");
 		
 		return yMatrix;
 	}
@@ -147,10 +147,14 @@ public class SobelEdgeDetection {
 		{
 			for(int j = 1; j < width-1; j++)
 			{
-				direction[j][i] = (int) Math.toDegrees(Math.atan(y[j][i]/x[j][i]));
+				direction[j][i] = (int) Math.toDegrees(Math.atan(y[j][i]/x[j][i])) + 90;
 			}
 		}
 		
 		return direction;
+	}
+
+	public void generateHistogram(){
+
 	}
 }
