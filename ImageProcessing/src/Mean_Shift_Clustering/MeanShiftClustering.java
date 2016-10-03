@@ -23,6 +23,7 @@ public class MeanShiftClustering {
 		for(int i=0; i< 20; i++){
 			int randomNumber = Math.random();
 		}*/
+		
 		for(int i=0; i< k.length; i++){
 			k[i] = clusterPixels(k[i], imageMat, i);
 		}

@@ -18,8 +18,6 @@ public class MainApp {
 		    
 		    int[][] imgGrayMat = grayScale.getImageGrayScaleMatrix();
 		    ImageSharpening is = new ImageSharpening(img, imgGrayMat);
-		    is.laplasianFilter2(imgGrayMat);
-		    is.laplasianFilter3(imgGrayMat);
 		    
 		} catch (IOException e) {
 			e.printStackTrace();
