@@ -68,7 +68,7 @@ public class SobelEdgeDetection {
 			}
 		}
 		
-		//new WriteImage().Write(image1, "src/SobelEdgeDetection/SobelImages/", "xConvolution.jpg");
+		//new WriteImage().Write(image1, "src/FeatureExtractionUsingSobel/SobelImages/", "xConvolution.jpg");
 		
 		return xMatrix;
 	}

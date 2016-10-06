@@ -10,12 +10,15 @@ public class MainApp {
 	
 	public static void main(String args[]){
 		String filePath = "D:\\LFW GENDER\\fold0\\malen";
-		SobelEdgeDetection sobelEdgeDetection = new SobelEdgeDetection();
+		FeatureExtractionUsingSobel FE = new FeatureExtractionUsingSobel();
+		BufferedImage img;
+		int i =0;
 		try {
-			for (int i = 1; i <10000; i++){
-				BufferedImage img = ImageIO.read(new File("filePath" +i+".jpg"));
+			while((img = ImageIO.read(new File("filePath" +i+".jpg"))) !=null){
+			//	BufferedImage img = ImageIO.read(new File("filePath" +i+".jpg"));
 
-				sobelEdgeDetection.EdgeDetection(img);
+				FE.EdgeDetection(img);
+				i++;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

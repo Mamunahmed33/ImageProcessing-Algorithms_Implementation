@@ -13,28 +13,33 @@ Process: 1. Takes a colored image
 		 4. Calculates magnitude from xConvolution and yConvolution and output final image
 */
 
-public class SobelEdgeDetection {
+public class FeatureExtractionUsingSobel {
 	BufferedImage img, finalImg;
 	int[][] imageMatrix;
 	int height, width;
 	private WriteImage writeImage;
 	
-	public SobelEdgeDetection(){
+	public FeatureExtractionUsingSobel(){
 		writeImage = WriteImage.getInstance();
 	} 
 	
 	public void EdgeDetection(BufferedImage img){
-		this.img = img;
-		this.height = img.getHeight();
-		this.width = img.getWidth();
 
-		imageMatrix = new ConvertImageToGrayScaleMatrix().imageToMatrix(img);
-		int[][] xMatrix = xConvolution();
-		int[][] yMatrix = yConvolution();
-		
-		//finalImage(xMatrix, yMatrix);
-		
-		calculateDirection(xMatrix, yMatrix);
+		BufferedImage[] smallImg= cropImage(img);
+		for(int i=0; i< 8; i++){
+
+			this.img = img;
+			this.height = img.getHeight();
+			this.width = img.getWidth();
+
+			imageMatrix = new ConvertImageToGrayScaleMatrix().imageToMatrix(img);
+			int[][] xMatrix = xConvolution();
+			int[][] yMatrix = yConvolution();
+
+			//finalImage(xMatrix, yMatrix);
+
+			calculateDirection(xMatrix, yMatrix);
+		}
 	}
 	
 	public int[][] xConvolution(){
@@ -136,9 +141,6 @@ public class SobelEdgeDetection {
 		writeImage.Write(finalImg, "src/FeatureExtractionAndMaleFemaleDetection/Images/", "FinalImg.jpg");
 	}
 	*/
-	public BufferedImage getSobelImage(){
-		return finalImg;
-	}
 	
 	public int[][] calculateDirection(int[][] x, int[][] y){
 		
@@ -156,5 +158,22 @@ public class SobelEdgeDetection {
 
 	public void generateHistogram(){
 
+	}
+
+	public BufferedImage[] cropImage(BufferedImage img){
+		BufferedImage[] smallImages = new BufferedImage[8];
+
+		int x = 0;
+		int y = 0;
+		int w = img.getWidth()/8;
+		int h = img.getHeight()/8;
+
+		for(int i=0; i<8 ; i++){
+			smallImages[i] = img.getSubimage(x, y, w, h);
+			x+=w;
+			y+=y;
+		}
+
+		return smallImages;
 	}
 }

@@ -13,7 +13,7 @@ public class MainApp {
 	
 	public static void main(String args[]){
 		try {
-			BufferedImage img = ImageIO.read(new File("src/SobelEdgeDetection/SobelImages/img_3.jpg"));
+			BufferedImage img = ImageIO.read(new File("src/FeatureExtractionUsingSobel/SobelImages/img_3.jpg"));
 		    
 			ConvertImageToGrayScale grayScale = new ConvertImageToGrayScale();
 		    grayScale.convetToGrayScale(img);
