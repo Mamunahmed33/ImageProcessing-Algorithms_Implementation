@@ -13,6 +13,7 @@ public class MainApp {
 		FeatureExtractionUsingSobel FE = new FeatureExtractionUsingSobel();
 		BufferedImage img;
 		int i =0;
+		
 		try {
 			while((img = ImageIO.read(new File("filePath" +i+".jpg"))) !=null){
 			//	BufferedImage img = ImageIO.read(new File("filePath" +i+".jpg"));
