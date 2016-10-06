@@ -7,6 +7,8 @@
 4. Skin Detection
 5. K-Means Clustering
 6. Mean-Shift Clustering
+7. Red Eye Detection and Removing
+8. Image Feature Extraction and Male Female Detection
 
 ##### Others
 + Image Convertion to GrayScale
