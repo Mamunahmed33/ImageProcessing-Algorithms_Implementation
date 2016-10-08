@@ -1,6 +1,13 @@
 package FeatureExtractionAndMaleFemaleDetection;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 import HarrisCornerDetection.WriteImage;
 
@@ -8,9 +15,11 @@ import HarrisCornerDetection.WriteImage;
 Input: Colored Image
 Output: XConvolition Image, YConvolution Image, Final Image
 Process: 1. Takes a colored image 
-		 2. Gets the grayscale matrix of that image by calling ConvertImageToMatrix class
+		 2. Gets the grayscale matrix of that image by calling ConvertImageGrayScaleToMatrix class
 		 3. Calculates xConvolution and yConvolution
-		 4. Calculates magnitude from xConvolution and yConvolution and output final image
+		 4. Calculates magnitude from xConvolution and yConvolution
+		 5. Calculates Directions from the x and y convolution
+		 5. Generates Histogram
 */
 
 public class FeatureExtractionUsingSobel {
@@ -18,6 +27,7 @@ public class FeatureExtractionUsingSobel {
 	int[][] imageMatrix;
 	int height, width;
 	private WriteImage writeImage;
+	String imgFeatures;
 	
 	public FeatureExtractionUsingSobel(){
 		writeImage = WriteImage.getInstance();
@@ -26,20 +36,26 @@ public class FeatureExtractionUsingSobel {
 	public void EdgeDetection(BufferedImage img){
 
 		BufferedImage[] smallImg= cropImage(img);
-		for(int i=0; i< 8; i++){
+		
+		imgFeatures = "1 "; //Set 1 for Male and 2 for Female
+		imageMatrix = new ConvertImageToGrayScaleMatrix().imageToMatrix(img);
 
-			this.img = img;
+		for(int i=0; i< 8; i++){
+			this.img = smallImg[i];
 			this.height = img.getHeight();
 			this.width = img.getWidth();
 
-			imageMatrix = new ConvertImageToGrayScaleMatrix().imageToMatrix(img);
 			int[][] xMatrix = xConvolution();
 			int[][] yMatrix = yConvolution();
+			
+			int[][] magnitude = calculateMagnitude(xMatrix, yMatrix);
 
-			//finalImage(xMatrix, yMatrix);
-
-			calculateDirection(xMatrix, yMatrix);
+			int[][] directions = calculateDirection(xMatrix, yMatrix);
+			generateHistogram(directions, magnitude);
 		}
+		
+		writeInFile(imgFeatures);
+		imgFeatures = "";
 	}
 	
 	public int[][] xConvolution(){
@@ -118,8 +134,9 @@ public class FeatureExtractionUsingSobel {
 		return value;
 	}
 	
-	/*public void finalImage(int[][] xMatrix, int[][] yMatrix){
+	public int[][] calculateMagnitude(int[][] xMatrix, int[][] yMatrix){
 		int M, Mx, My;
+		int[][] magnitude = new int[width][height];
 		finalImg = new BufferedImage( width, height, BufferedImage.TYPE_BYTE_GRAY);
 		
 		for(int i = 1; i < height-1; i++)
@@ -131,6 +148,7 @@ public class FeatureExtractionUsingSobel {
 				M = (int) Math.sqrt(Mx*Mx + My*My);
 				
 				M = pixelValueChecker(M);
+				magnitude[j][i] = M;
 				
 				Color c = new Color(M, M, M);
 				
@@ -138,9 +156,10 @@ public class FeatureExtractionUsingSobel {
 			}
 		}
 		
-		writeImage.Write(finalImg, "src/FeatureExtractionAndMaleFemaleDetection/Images/", "FinalImg.jpg");
+		//writeImage.Write(finalImg, "D:\\LFW GENDER\\SobelImage\\", "FinalImg.jpg");
+		
+		return magnitude;
 	}
-	*/
 	
 	public int[][] calculateDirection(int[][] x, int[][] y){
 		
@@ -149,15 +168,35 @@ public class FeatureExtractionUsingSobel {
 		{
 			for(int j = 1; j < width-1; j++)
 			{
-				direction[j][i] = (int) Math.toDegrees(Math.atan(y[j][i]/x[j][i])) + 90;
+				int yTemp = y[j][i], xTemp = x[j][i];
+				
+				if(xTemp !=0){					
+					direction[j][i] = (int) Math.toDegrees(Math.atan(yTemp/xTemp)) + 90;
+				}
+				else{
+					direction[j][i] = 0;
+				}
 			}
 		}
 		
 		return direction;
 	}
 
-	public void generateHistogram(){
-
+	public void generateHistogram(int[][] directions, int[][] magnitude){
+		int[] histogram = new int[18];
+		
+		for(int i = 1; i < height - 1; i++)
+		{
+			for(int j = 1; j < width - 1; j++)
+			{
+				int segment = directions[j][i] / 10;
+				histogram[segment] += magnitude[j][i];
+			}
+		}
+		
+		for(int i=0; i< 18 ; i++){
+			imgFeatures += ""+ histogram[i]+" ";
+		}
 	}
 
 	public BufferedImage[] cropImage(BufferedImage img){
@@ -175,5 +214,16 @@ public class FeatureExtractionUsingSobel {
 		}
 
 		return smallImages;
+	}
+	
+	public void writeInFile(String features){
+		try(FileWriter fw = new FileWriter("D:\\LFW GENDER\\FeatureFile.txt", true);
+			    BufferedWriter bw = new BufferedWriter(fw);
+			    PrintWriter out = new PrintWriter(bw))
+			{
+			    out.println(imgFeatures);
+			} catch (IOException e) {
+				System.err.println("IOException: " + e.getMessage());
+			}
 	}
 }
