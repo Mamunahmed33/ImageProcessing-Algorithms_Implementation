@@ -63,7 +63,7 @@ public class SobelEdgeDetection {
 			}
 		}
 		
-		writeImage.Write(image1, "src/FeatureExtractionUsingSobel/SobelImages/", "xConvolution.jpg");
+		writeImage.Write(image1, "src/SobelEdgeDetection/SobelImages/", "xConvolution.jpg");
 		
 		return xMatrix;
 	}
@@ -97,7 +97,7 @@ public class SobelEdgeDetection {
 			}
 		}
 		
-		writeImage.Write(image2, "src/FeatureExtractionUsingSobel/SobelImages/", "yConvolution.jpg");
+		writeImage.Write(image2, "src/SobelEdgeDetection/SobelImages/", "yConvolution.jpg");
 		
 		return yMatrix;
 	}
@@ -131,7 +131,7 @@ public class SobelEdgeDetection {
 			}
 		}
 		
-		writeImage.Write(finalImg, "src/FeatureExtractionUsingSobel/SobelImages/", "FinalImg.jpg");
+		writeImage.Write(finalImg, "src/SobelEdgeDetection/SobelImages/", "FinalImg.jpg");
 	}
 	
 	public BufferedImage getSobelImage(){
