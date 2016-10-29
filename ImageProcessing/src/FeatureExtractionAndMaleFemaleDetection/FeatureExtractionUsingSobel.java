@@ -37,7 +37,7 @@ public class FeatureExtractionUsingSobel {
 
 		BufferedImage[] smallImg= cropImage(img);
 		
-		imgFeatures = "1 "; //Set 1 for Male and 2 for Female
+		imgFeatures = "2 "; //Set 1 for Male and 2 for Female
 		imageMatrix = new ConvertImageToGrayScaleMatrix().imageToMatrix(img);
 
 		for(int i=0; i< 8; i++){
@@ -195,7 +195,7 @@ public class FeatureExtractionUsingSobel {
 		}
 		
 		for(int i=0; i< 18 ; i++){
-			imgFeatures += ""+ histogram[i]+" ";
+			imgFeatures += " "+ histogram[i]+" ";
 		}
 	}
 
@@ -217,7 +217,7 @@ public class FeatureExtractionUsingSobel {
 	}
 	
 	public void writeInFile(String features){
-		try(FileWriter fw = new FileWriter("D:\\LFW GENDER\\FeatureFile.txt", true);
+		try(FileWriter fw = new FileWriter("D:\\LFW GENDER\\fold0.txt", true);
 			    BufferedWriter bw = new BufferedWriter(fw);
 			    PrintWriter out = new PrintWriter(bw))
 			{
