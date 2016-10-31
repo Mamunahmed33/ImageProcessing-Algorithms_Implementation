@@ -5,9 +5,6 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 
 import HarrisCornerDetection.WriteImage;
 
@@ -37,7 +34,7 @@ public class FeatureExtractionUsingSobel {
 
 		BufferedImage[] smallImg= cropImage(img);
 		
-		imgFeatures = "2 "; //Set 1 for Male and 2 for Female
+		imgFeatures = "1 "; //Set 1 for Male and 2 for Female
 		imageMatrix = new ConvertImageToGrayScaleMatrix().imageToMatrix(img);
 
 		for(int i=0; i< 8; i++){
@@ -61,7 +58,7 @@ public class FeatureExtractionUsingSobel {
 	public int[][] xConvolution(){
 		int[][] xMatrix = new int[width][height]; 
 		
-		BufferedImage image1 = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
+		//BufferedImage image1 = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
 		
 		int x = 0;
 		
@@ -75,14 +72,14 @@ public class FeatureExtractionUsingSobel {
 					+ xMask[1][0] * imageMatrix[j-1][i]+ xMask[1][1] * imageMatrix[j][i]+ xMask[1][2] * imageMatrix[j+1][i]
 					+ xMask[2][0] * imageMatrix[j-1][i+1]+ xMask[2][1] * imageMatrix[j][i+1]+ xMask[2][2] * imageMatrix[j+1][i+1];
 			
-				x = Math.abs(x);
+				//x = Math.abs(x);
 				
-				x = pixelValueChecker(x);
+				//x = pixelValueChecker(x);
 				
 				xMatrix[j][i] = x;
-				Color c = new Color(x, x ,x);
 				
-				image1.setRGB(j, i, c.getRGB());
+				//Color c = new Color(x, x ,x);
+				//image1.setRGB(j, i, c.getRGB());
 			}
 		}
 		
@@ -95,7 +92,7 @@ public class FeatureExtractionUsingSobel {
 		
 		int[][] yMatrix = new int[width][height]; 
 		
-		BufferedImage image2 = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
+		//BufferedImage image2 = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
 		
 		int y = 0;
 		
@@ -109,14 +106,14 @@ public class FeatureExtractionUsingSobel {
 					+ yMask[1][0] * imageMatrix[j-1][i] + yMask[1][1] * imageMatrix[j][i]+ yMask[1][2] * imageMatrix[j+1][i]
 					+ yMask[2][0] * imageMatrix[j-1][i+1] + yMask[2][1] * imageMatrix[j][i+1]+ yMask[2][2] * imageMatrix[j+1][i+1];
 				
-				y = Math.abs(y);
+				//y = Math.abs(y);
 				
-				y = pixelValueChecker(y);
+				//y = pixelValueChecker(y);
 				
 				yMatrix[j][i] = y;
 				
-				Color c = new Color(y, y ,y);
-				image2.setRGB(j, i, c.getRGB());
+			//	Color c = new Color(y, y ,y);
+			//	image2.setRGB(j, i, c.getRGB());
 			}
 		}
 		
@@ -125,19 +122,19 @@ public class FeatureExtractionUsingSobel {
 		return yMatrix;
 	}
 	
-	private int pixelValueChecker(int value){
+	/*private int pixelValueChecker(int value){
 		if(value > 255)
 			value = 255;
 		else if(value < 0)
 			value = 0;
 		
 		return value;
-	}
+	}*/
 	
 	public int[][] calculateMagnitude(int[][] xMatrix, int[][] yMatrix){
 		int M, Mx, My;
 		int[][] magnitude = new int[width][height];
-		finalImg = new BufferedImage( width, height, BufferedImage.TYPE_BYTE_GRAY);
+		//finalImg = new BufferedImage( width, height, BufferedImage.TYPE_BYTE_GRAY);
 		
 		for(int i = 1; i < height-1; i++)
 		{
@@ -147,12 +144,11 @@ public class FeatureExtractionUsingSobel {
 				My = yMatrix[j][i];
 				M = (int) Math.sqrt(Mx*Mx + My*My);
 				
-				M = pixelValueChecker(M);
+				//M = pixelValueChecker(M);
 				magnitude[j][i] = M;
 				
-				Color c = new Color(M, M, M);
-				
-				finalImg.setRGB(j, i, c.getRGB());
+				//Color c = new Color(M, M, M);
+				//finalImg.setRGB(j, i, c.getRGB());
 			}
 		}
 		
@@ -161,22 +157,26 @@ public class FeatureExtractionUsingSobel {
 		return magnitude;
 	}
 	
+	
+	//Calculates the direction of the images
 	public int[][] calculateDirection(int[][] x, int[][] y){
 		
 		int direction[][] = new int[width][height];
-		for(int i = 1; i < height-1; i++)
+		for(int i = 1; i < height; i++)
 		{
-			for(int j = 1; j < width-1; j++)
+			for(int j = 1; j < width; j++)
 			{
 				int yTemp = y[j][i], xTemp = x[j][i];
 				
-				if(xTemp !=0){					
-					direction[j][i] = (int) Math.toDegrees(Math.atan(yTemp/xTemp)) + 90;
-				}
-				else{
+				if(xTemp ==0){					
 					direction[j][i] = 0;
 				}
+				else{
+					direction[j][i] = (int) Math.toDegrees(Math.atan(yTemp/xTemp)) + 90;
+				//	System.out.print(direction[j][i]+"  ");
+				}
 			}
+			//System.out.println();
 		}
 		
 		return direction;
@@ -195,7 +195,8 @@ public class FeatureExtractionUsingSobel {
 		}
 		
 		for(int i=0; i< 18 ; i++){
-			imgFeatures += " "+ histogram[i]+" ";
+			imgFeatures += ""+ histogram[i]+" ";
+			//System.out.println(imgFeatures);
 		}
 	}
 
@@ -217,7 +218,7 @@ public class FeatureExtractionUsingSobel {
 	}
 	
 	public void writeInFile(String features){
-		try(FileWriter fw = new FileWriter("D:\\LFW GENDER\\fold0.txt", true);
+		try(FileWriter fw = new FileWriter("E:\\LFW GENDER\\data\\minhaz.txt", true);
 			    BufferedWriter bw = new BufferedWriter(fw);
 			    PrintWriter out = new PrintWriter(bw))
 			{
