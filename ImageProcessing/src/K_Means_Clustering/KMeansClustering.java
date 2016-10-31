@@ -18,7 +18,8 @@ public class KMeansClustering {
 		
 		this.mainColoredImage = img;
 		
-		int [] K = {30, 40, 55, 75, 100, 120, 150, 180};
+//		int [] K = {30, 40, 55, 75, 100, 120, 150, 180};
+		int [] K = {30, 50, 65, 80, 120, 150, 180};
 		
 		clusterPixels(K, imageMat);
 	}
