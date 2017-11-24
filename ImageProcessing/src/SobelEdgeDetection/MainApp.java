@@ -6,12 +6,16 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import FileChooser_Saver.FileChooser;
+
 public class MainApp {
 	
 	public static void main(String args[]){
 		try {
-			BufferedImage img = ImageIO.read(new File("src/SobelEdgeDetection/SobelImages/img_3.jpg"));
-		    
+			FileChooser fileChooser = FileChooser.getFileChooserInstance();
+			String filePath = "src/SobelEdgeDetection/SobelImages/";
+			BufferedImage img = ImageIO.read(new File(fileChooser.getFile(filePath)));
+			
 		    SobelEdgeDetection sobelEdgeDetection = new SobelEdgeDetection();
 		    sobelEdgeDetection.EdgeDetection(img);
 		    

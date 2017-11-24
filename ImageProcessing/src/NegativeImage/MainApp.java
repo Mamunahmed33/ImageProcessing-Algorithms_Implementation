@@ -6,14 +6,17 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import FileChooser_Saver.FileChooser;
 import K_Means_Clustering.WriteImage;
 
 public class MainApp {
 	
 	public static void main(String args[]){
 		try {
-			BufferedImage img = ImageIO.read(new File("src/NegativeImage/Images/img21.jpg"));
-		    
+			FileChooser fileChooser = FileChooser.getFileChooserInstance();
+			String filePath = "src/NegativeImage/Images/";
+			BufferedImage img = ImageIO.read(new File(fileChooser.getFile(filePath)));
+			
 			/*ConvertImageToGrayScale convertImageToGrayScale = new ConvertImageToGrayScale();
 			BufferedImage grayImage = convertImageToGrayScale.convetToGrayScale(img);*/
 			
