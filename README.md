@@ -14,4 +14,4 @@
 + Image Convertion to GrayScale
 + Image Convertion to Binary
 + Image Convertion to Negative
-
++ Bangla characters separation from text image
